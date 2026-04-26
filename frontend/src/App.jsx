@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import StudentDashboard from './pages/StudentDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import Navbar from './components/Navbar';
+import ChatBot from './components/ChatBot';
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -59,8 +60,8 @@ function App() {
             } />
           </Routes>
         </div>
-      </div>
-    </Router>
+        <ChatBot />
+      </Router>
   );
 }
 

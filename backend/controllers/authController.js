@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 exports.register = async (req, res) => {
     try {
         const { name, reg_no, password, role, room_no } = req.body;
-        
+
         // Check if user exists
         const existingUser = await User.findByRegNo(reg_no);
         if (existingUser) {
@@ -35,8 +35,9 @@ exports.login = async (req, res) => {
         if (!user) {
             return res.status(400).json({ message: 'Invalid credentials' });
         }
-
-        // Check password
+        console.log("USER:", user);
+        console.log("PASSWORD:", password);
+        console.log("HASH:", user?.password);
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(400).json({ message: 'Invalid credentials' });

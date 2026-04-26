@@ -1,6 +1,6 @@
 # 🏠 HostelDesk — Complaint Management System
 
-A professional, fully functional Hostel Complaint Management System built with vanilla HTML, CSS, and JavaScript. No frameworks or backend required — all data is stored in `localStorage`.
+A full-stack hostel complaint management system built with the MERN stack (MongoDB, Express, React, Node.js).
 
 ---
 
@@ -8,118 +8,155 @@ A professional, fully functional Hostel Complaint Management System built with v
 
 ```
 hostel-complaint-system/
-├── index.html                   ← Login page (entry point)
-├── css/
-│   ├── main.css                 ← Design tokens, reset, global styles, utilities
-│   ├── auth.css                 ← Login / register page styles
-│   └── dashboard.css            ← Dashboard layout, sidebar, cards, tables
-├── js/
-│   ├── data.js                  ← Data layer: localStorage CRUD, seed data, constants
-│   ├── app.js                   ← Router, Toast system, Modal system, shared helpers
-│   ├── auth.js                  ← Login & registration logic
-│   ├── student.js               ← Student dashboard logic
-│   └── admin.js                 ← Admin dashboard logic
-└── pages/
-    ├── student-dashboard.html   ← Student portal UI
-    └── admin-dashboard.html     ← Admin panel UI
+├── backend/
+│   ├── config/db.js            # MySQL database connection
+│   ├── controllers/           # Route handlers
+│   │   ├── authController.js
+│   │   └── complaintsController.js
+│   ├── middleware/            # Auth middleware
+│   ├── models/               # Database models
+│   ├── routes/               # API routes
+│   ├── config/
+│   ├── setup.sql              # Database schema & seed data
+│   └── package.json
+├── frontend/
+│   ├── src/
+│   │   ├── components/       # Reusable components
+│   │   │   ├── ChatBot.jsx   # AI Chat Assistant (Ollama-powered)
+│   │   │   ├── ComplaintCard.jsx
+│   │   │   └── Navbar.jsx
+│   │   ├── contexts/         # React contexts
+│   │   │   └── AuthContext.jsx
+│   │   ├── pages/            # Page components
+│   │   │   ├── Login.jsx
+│   │   │   ├── StudentDashboard.jsx
+│   │   │   └── AdminDashboard.jsx
+│   │   ├── services/        # API service
+│   │   │   └── api.js
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   └── package.json
+└── README.md
 ```
 
 ---
 
 ## 🚀 How to Run
 
-### Option 1: VS Code Live Server (Recommended)
-1. Open the project folder in VS Code
-2. Right-click `index.html` → **Open with Live Server**
-3. The app opens at `http://127.0.0.1:5500`
+### Prerequisites
+- Node.js (v18+)
+- MySQL (running locally on port 3306)
 
-### Option 2: Python HTTP Server
+### Setup
+
+1. **Start MySQL** and create the database:
 ```bash
-cd hostel-complaint-system
-python3 -m http.server 8080
-# Then open http://localhost:8080
+# The schema is auto-created when you run the backend
 ```
 
-### Option 3: Node.js HTTP Server
+2. **Start the Backend**:
 ```bash
-npm install -g http-server
-cd hostel-complaint-system
-http-server -p 8080
-# Then open http://localhost:8080
+cd backend
+npm install
+npm run dev
 ```
 
-> ⚠️ **Do not** open `index.html` directly as a `file://` URL — relative paths won't resolve correctly.
+3. **Start the Frontend** (in a new terminal):
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+4. Open `http://localhost:5173`
 
 ---
 
 ## 🔐 Demo Credentials
 
-| Role      | Email                 | Password     |
-|-----------|-----------------------|--------------|
-| Admin     | admin@hostel.com      | admin123     |
-| Student 1 | arjun@student.com     | student123   |
-| Student 2 | priya@student.com     | student123   |
-| Student 3 | rahul@student.com     | student123   |
+| Role | Registration No | Password |
+|------|----------------|----------|
+| Admin | admin1 | pass123 |
+| Student | 21BCE0001 | pass123 |
+| Student | 202300182 | pass123 |
 
 ---
 
 ## ✨ Features
 
 ### Student Portal
-- 🔐 **Login / Register** — Create new accounts with room assignment
+- 🔐 **Login / Register** — Create accounts with room assignment
 - 📊 **Dashboard** — Stats overview + recent complaints
-- ➕ **Submit Complaint** — Category picker, priority selector, description with char counter
-- 📋 **My Complaints** — Filter by status, search, click to view detail with timeline
-- 👤 **Profile** — View info, change password
+- ➕ **Submit Complaint** — Category picker, priority selector, description
+- 💬 **AI Assistant** — Chat bot powered by Ollama (LLM)
+- 📋 **My Complaints** — Filter by status, view details
 
 ### Admin Panel
-- 📊 **Dashboard** — Full stats, pending complaints queue, category breakdown bar chart
-- 📋 **All Complaints** — Filter by status/category/search/sort, update status + remarks
-- 👥 **Students** — Table of all registered students with complaint counts
-- 📈 **Analytics** — Progress bars for category, status, priority + recent activity
-- ⚙️ **Settings** — Edit profile, change password, export data (JSON), clear data
+- 📊 **Dashboard** — Full stats, pending complaints queue
+- 📋 **All Complaints** — Filter by status/category, update status
+- 👥 **Students** — View all registered students with complaint counts
 
-### General
-- 🎨 Refined dark-green + warm cream design system
-- 🔔 Toast notifications system
-- 💬 Modal dialogs for detail views and confirmations
-- 📱 Responsive layout (mobile sidebar toggle)
-- 🔄 Activity timeline on every complaint
-- 🌱 Pre-seeded with realistic sample data
+---
+
+## 🤖 AI Chat Bot
+
+The app includes an **AI-powered chat assistant** that helps users:
+- How to file complaints
+- Check complaint status
+- Understand categories and priority levels
+- General hostel information
+
+### Setup Ollama (Optional)
+For the AI chat to work with a real LLM:
+1. Install [Ollama](https://ollama.com)
+2. Run `ollama serve`
+3. Run `ollama pull llama3.2`
+
+If Ollama isn't running, the bot uses a simple rule-based fallback.
 
 ---
 
 ## 🗂️ Complaint Categories
 
-| Category   | Icon |
-|------------|------|
-| Plumbing   | 🔧   |
-| Electrical | ⚡   |
-| Carpentry  | 🪵   |
-| WiFi       | 📶   |
-| Cleaning   | 🧹   |
-| Security   | 🔒   |
-| Other      | 📋   |
+- Electrical
+- Plumbing
+- Furniture
+- Cleaning
+- Other
 
 ## 📊 Complaint Statuses
 
-`Pending` → `Open` → `In Progress` → `Resolved` / `Rejected`
+- `Pending` → `In Progress` → `Resolved`
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **HTML5** — Semantic, accessible markup
-- **CSS3** — Custom properties, Grid, Flexbox, animations
-- **JavaScript (ES6+)** — Modules pattern, localStorage, DOM manipulation
-- **Google Fonts** — Lora (display) + DM Sans (body)
-- **No frameworks, no build tools, no dependencies**
+### Backend
+- Node.js + Express.js
+- MySQL + mysql2
+- JWT for authentication
+- bcryptjs for password hashing
+
+### Frontend
+- React 19
+- Vite
+- Tailwind CSS
+- React Router DOM
+- Axios
+- Lucide React (icons)
 
 ---
 
-## 📝 Extending the Project
+## 📝 API Endpoints
 
-To connect a real backend:
-- Replace `DB.*` methods in `data.js` with `fetch()` calls to your API
-- Replace `localStorage` session with JWT / cookies
-- All UI logic in `student.js` and `admin.js` remains the same
+### Auth
+- `POST /api/auth/register` — Register new user
+- `POST /api/auth/login` — Login
+- `GET /api/auth/me` — Get current user
+
+### Complaints
+- `GET /api/complaints` — Get all complaints (admin) or user's complaints
+- `POST /api/complaints` — Create complaint
+- `PUT /api/complaints/:id` — Update complaint status (admin)
+- `DELETE /api/complaints/:id` — Delete complaint
